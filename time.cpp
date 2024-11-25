@@ -1,7 +1,9 @@
-#include "time.h"
 #include <iomanip>
 #include <sstream>
 
+#include "time.h"
+
+using namespace std;
 
 Time::Time()
 {
