@@ -1,40 +1,35 @@
+//libraries
 #include <string>
 #include <iostream>
 #include <vector>
 
+//files
 #include "time.h"
+//peripherals
+#include "light.h"
+#include "thermobarometer.h"
+#include "thermostat.h"
+#include "plugSocket.h"
 
+//namespaces
 using namespace std;
 
 bool start(){
-    return false;
-}
-void run(){
-    cout << "Smart Home System";
     // init lights
     // init thermometer & barometer
     // init thermostat
     // init socket
     // init radiator valve
-}
-void end(){
 
+    return false;
 }
+void run(){}
+void end(){}
 
-char menu(){
-    string menuBreak = "\n################################################################";
-    cout    << menuBreak
-            << "\nMenu"
-            << "\n" /*Add Peripherals here*/
-            << "\nQuit"
-            << endl;
+//global classes
 
-    return '0';
-}
+//entry point
 int main(){
-    if (!start()){
-        run();
-    }
-    end();
+
     return 0;
 }

@@ -1,13 +1,15 @@
+#pragma once
 #include <string>
+
 #include "time.h"
+
 using namespace std;
 
-class Peripheral
-{
+class Peripheral {
 private:
     string name;
-    string type;
-
+    string type; 
+    
     bool active;
 
     float percentage;
@@ -36,6 +38,6 @@ public :
 //custom functions
     virtual void read() const = 0;
     virtual void write() const = 0;
-
+    
 
 };

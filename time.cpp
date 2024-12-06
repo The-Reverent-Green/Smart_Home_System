@@ -90,7 +90,6 @@ void Time::setSecond(int second)
     mktime(&time_);
 }
 
-// Sets the time to the current system time
 void Time::setCurrentTime()
 {
     time_t now = time(nullptr);
