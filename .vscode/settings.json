@@ -1,6 +1,25 @@
 {
     "files.associations": {
         "*.embeddedhtml": "html",
-        "vector": "cpp"
+        "vector": "cpp",
+        "iosfwd": "cpp",
+        "typeinfo": "cpp",
+        "iostream": "cpp",
+        "string": "cpp",
+        "ostream": "cpp",
+        "ios": "cpp",
+        "__locale": "cpp",
+        "fstream": "cpp",
+        "stdexcept": "cpp",
+        "__hash_table": "cpp",
+        "__split_buffer": "cpp",
+        "__tree": "cpp",
+        "atomic": "cpp",
+        "deque": "cpp",
+        "map": "cpp",
+        "system_error": "cpp",
+        "unordered_map": "cpp",
+        "filesystem": "cpp",
+        "algorithm": "cpp"
     }
 }
