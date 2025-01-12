@@ -14,12 +14,12 @@ private:
     void viewDevicesAlphabetically();
     void viewDevicesByType();
 
-    bool selectOption();
+    bool selectOption() override;
 public:
     MainMenu() = default;
     MainMenu(string prompt);
     ~MainMenu() = default;
 
 
-    void promptAndExecute();
+    void promptAndExecute() override;
 };

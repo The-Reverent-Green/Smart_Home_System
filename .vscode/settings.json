@@ -20,6 +20,9 @@
         "system_error": "cpp",
         "unordered_map": "cpp",
         "filesystem": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "tuple": "cpp",
+        "queue": "cpp",
+        "chrono": "cpp"
     }
 }

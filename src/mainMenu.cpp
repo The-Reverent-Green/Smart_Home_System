@@ -14,22 +14,26 @@ void MainMenu::exitProgram()
 
 bool MainMenu::selectOption()
 {
+    if (input == "0")
+    {
+        exitProgram();
+        return true;
+    }
     return false;
 }
 
-void MainMenu::viewDevicesUnordered()
-{
-    
-}
+void MainMenu::viewDevicesUnordered(){}
 void MainMenu::viewDevicesAlphabetically(){}
 void MainMenu::viewDevicesByType(){}
 
 void MainMenu::promptAndExecute()
 {
-    while (true)
+    int count = 3;
+    while (count > 0)
     {
         promptUser();
         bool isExit = selectOption();
         if (isExit) break;
+        count--;
     }
 }

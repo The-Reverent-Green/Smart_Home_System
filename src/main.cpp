@@ -4,45 +4,21 @@
 #include <vector>
 #include <algorithm>
 
+//#include "time.cpp"
+//include device types
 #include "light.cpp"
 #include "thermohygrometer.cpp"
 #include "speaker.cpp"
-//#include "mainMenu.cpp"
-//vector<shared_ptr<Peripheral>> temp = listDevicesUnordered();
+//#include "thermostat.cpp"
+//#include "plug.cpp"
+//#include "valve.cpp"
 
+//include menus
+ #include "mainMenu.cpp"
+// #include "connectDeviceMenu.cpp"
+// #include "viewDeviceMenu.cpp"
 
 using namespace std;
-
-vector<shared_ptr<Peripheral>> devices;
-
-bool alreadyTaken(const string &input)
-{
-    // All devices should have a user-editable device name that is unique across your system(case insensitive).
-    // currently case sensitive
-    for (const auto &device : devices)
-    {
-        if (input == device->getName())
-            return true;
-    }
-    return false;
-}
-
-vector<shared_ptr<Peripheral>> listDevicesUnordered()
-{
-    return devices;
-}
-vector<shared_ptr<Peripheral>> listDevicesAlphabetically()
-{
-    vector<shared_ptr<Peripheral>> sortedDevices = devices;
-    // sorting logic currently unimplemented
-    return sortedDevices;
-}
-vector<shared_ptr<Peripheral>> listDevicesByType()
-{
-    vector<shared_ptr<Peripheral>> sortedDevices = devices;
-    // sorting logic currently unimplemented
-    return sortedDevices;
-}
 
 class Console
 {
@@ -60,30 +36,69 @@ public:
     }
 };
 
-template <typename T>
+
+//Device vector and functions
+vector<shared_ptr<Peripheral>> devices;
+bool alreadyTaken(const string &input)
+{
+    // All devices should have a user-editable device name that is unique across your system(case insensitive).
+    // currently case sensitive
+    for (const auto &device : devices)
+    {
+        if (input == device->getName())
+            return true;
+    }
+    return false;
+}
+vector<shared_ptr<Peripheral>> listDevicesUnordered()
+{
+    return devices;
+}
+vector<shared_ptr<Peripheral>> listDevicesAlphabetically()
+{
+    vector<shared_ptr<Peripheral>> sortedDevices = devices;
+    // sorting logic currently unimplemented
+    return sortedDevices;
+}
+vector<shared_ptr<Peripheral>> listDevicesByType()
+{
+    vector<shared_ptr<Peripheral>> sortedDevices = devices;
+    // sorting logic currently unimplemented
+    return sortedDevices;
+}
+
+template <typename menuT>
+void showMenu(const string &name)
+{
+    menuT *menu = new menuT(name);
+
+}
+
+template <typename deviceT>
 void createAndConnectDevice(const string &name, vector<shared_ptr<Peripheral>> &devices)
 {
-    T *device = new T(name);
+    deviceT *device = new deviceT(name);
     devices.push_back(shared_ptr<Peripheral>(device));
-    string objType = typeid(T).name();
+    string objType = typeid(deviceT).name();
     cout << "New " << objType << " [" << device->getName() << "] has been connected!" << endl;
     Console::returnAnyKeyToContinue();
 }
 
-void viewDevice()
-{
-}
 void deleteDevice(string name)
 {
-    auto it = find_if(
-        devices.begin(),
-        devices.end(),
+    auto it = find_if(devices.begin(),devices.end(),
         [&name](const shared_ptr<Peripheral> &device)
         {
             return device->getName() == name;
         });
     devices.erase(it);
     cout << "Device deleted." << endl;
+    Console::returnAnyKeyToContinue();
+}
+
+void viewDevice()
+{
+    cout << "Viewing device...\n" << endl;
     Console::returnAnyKeyToContinue();
 }
 void oneClick()
@@ -107,6 +122,15 @@ void oneClick()
     Console::returnAnyKeyToContinue();
 }
 
+void exitProgram()
+{
+
+    // write data to persistent memory
+
+    // close program
+    Console::clear();
+    cout << "The program has now ended, thank you for your time." << endl;
+}
 void viewDevicesUnordered()
 {
     vector<shared_ptr<Peripheral>> temp = listDevicesUnordered();
@@ -118,13 +142,27 @@ void viewDevicesUnordered()
 
     Console::returnAnyKeyToContinue();
 }
-void exitProgram()
-{
-    // write data to persistent memory
-    // close program
+void viewDevicesAlphabetically() {
+    vector<shared_ptr<Peripheral>> temp = listDevicesAlphabetically();
+
     Console::clear();
-    cout << "The program has now ended, thank you for your time." << endl;
+    cout << "Listing devices alphabetically..." << endl;
+    for (int i(0); i < temp.size(); i++)
+        cout << i << ": " << temp[i]->getName() << endl;
+
+    Console::returnAnyKeyToContinue();
 }
+void viewDevicesByType() {
+    vector<shared_ptr<Peripheral>> temp = listDevicesByType();
+
+    Console::clear();
+    cout << "Listing devices by type..." << endl;
+    for (int i(0); i < temp.size(); i++)
+        cout << i << ": " << temp[i]->getName() << endl;
+
+    Console::returnAnyKeyToContinue();
+}
+
 
 // Action Functions
 string askForName()
@@ -228,7 +266,7 @@ void connectDeviceMenu()
     cout << "Device connected!" << endl;
     return;
 }
-/*void mainMenu2(){
+void mainMenuUsingClass(){
     MainMenu mainMenu("Select an option:\n"
         "0 - Exit program\n"
         "1 - List devices\n"
@@ -238,8 +276,8 @@ void connectDeviceMenu()
         "5 - Add a device\n"
         "6 - Select a device to view its Quick-Action\n");
         mainMenu.promptAndExecute();
-}*/
-void mainMenu()
+}
+void mainMenuUsingSwitchcase()
 {
     char choice;
     while (true)
@@ -260,46 +298,17 @@ void mainMenu()
             exitProgram();
             return;
         case '1':
-        {
-            vector<shared_ptr<Peripheral>> temp = listDevicesUnordered();
-
-            Console::clear();
-            cout << "Listing devices unordered..." << endl;
-            for (int i(0); i < temp.size(); i++)
-                cout << i << ": " << temp[i]->getName() << endl;
-
-            Console::returnAnyKeyToContinue();
-        }
+            viewDevicesUnordered();
             break;
         case '2':
-        {
-            vector<shared_ptr<Peripheral>> temp = listDevicesAlphabetically();
-
-            Console::clear();
-            cout << "Listing devices alphabetically..." << endl;
-            for (int i(0); i < temp.size(); i++)
-                cout << i << ": " << temp[i]->getName() << endl;
-
-            Console::returnAnyKeyToContinue();
-        }
+            viewDevicesAlphabetically();
             break;
         case '3':
-        {
-            vector<shared_ptr<Peripheral>> temp = listDevicesAlphabetically();
-
-            Console::clear();
-            cout << "Listing devices by type..." << endl;
-            for (int i(0); i < temp.size(); i++)
-                cout << i << ": " << temp[i]->getName() << endl;
-
-            Console::returnAnyKeyToContinue();
-        }
+            viewDevicesByType();
             break;
         case '4':
             Console::clear();
-            cout << "Viewing device...\n"<< endl;
             viewDevice();
-            Console::returnAnyKeyToContinue();
             break;
         case '5':
             connectDeviceMenu();
@@ -334,8 +343,11 @@ int start()
 
 int main(){
     if (start()) return 1;//early exit if start() fails
-    mainMenu();
-    return 0;
+
+    //mainMenuUsingSwitchcase();
+    //pq();
+    mainMenuUsingClass();
+     return 0;
 }
 // g++ -std=c++17 -o scr src/main.cpp
 // ./scr
